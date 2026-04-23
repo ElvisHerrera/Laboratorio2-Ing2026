@@ -1,1 +1,3 @@
-selenium pytest pytest-html 
+selenium
+pytest
+pytest-html
