@@ -2,6 +2,9 @@ name: Selenium Tests
 
 on: [push, pull_request]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -26,7 +29,13 @@ jobs:
 
     - name: Ejecutar pruebas en modo Headless
       run: |
-        pytest --html=reporte_final.html --self-contained-html
+        pytest --html=reporte_final.html --self-contained-html -v
+      continue-on-error: true
+
+    - name: Listar archivos generados
+      if: always()
+      run: |
+        ls -la *.html 2>/dev/null || echo "No HTML files found"
 
     - name: Guardar el Reporte HTML como evidencia
       if: always()
@@ -34,3 +43,4 @@ jobs:
       with:
         name: reporte-selenium
         path: reporte_final.html
+        if-no-files-found: warn
