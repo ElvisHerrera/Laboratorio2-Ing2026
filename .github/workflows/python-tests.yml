@@ -2,9 +2,6 @@ name: Selenium Tests
 
 on: [push, pull_request]
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -27,15 +24,25 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Verificar instalación
+      run: |
+        python -c "import selenium; print('Selenium:', selenium.__version__)"
+        python -c "import pytest; print('Pytest:', pytest.__version__)"
+        which chromedriver
+        which chromium-browser
+
     - name: Ejecutar pruebas en modo Headless
       run: |
-        pytest --html=reporte_final.html --self-contained-html -v
+        pytest test_tienda.py --html=reporte_final.html --self-contained-html -v -s
       continue-on-error: true
 
     - name: Listar archivos generados
       if: always()
       run: |
-        ls -la *.html 2>/dev/null || echo "No HTML files found"
+        echo "=== Archivos en el directorio actual ==="
+        ls -la
+        echo "=== Buscando archivos HTML ==="
+        find . -name "*.html" -type f
 
     - name: Guardar el Reporte HTML como evidencia
       if: always()
