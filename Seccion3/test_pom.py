@@ -1,7 +1,7 @@
 # Este código es un ejemplo de cómo ejecutar una prueba utilizando el patrón Page Object Model (POM) con Selenium en Python.
 # nfrd1bqmofdghagmcljouf9gh2vhu9l0tw0dl3s1
 from selenium import webdriver
-from login_page import LoginPage # Importamos nuestra clase
+from Seccion3.login_page import LoginPage # Importamos nuestra clase
 
 def test_ejecucion_pom():
     driver = webdriver.Chrome()
